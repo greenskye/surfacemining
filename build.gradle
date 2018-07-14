@@ -1,0 +1,33 @@
+apply plugin: 'java'
+
+group "greenskye.wurm"
+version "1.0"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://gotti.no-ip.org/maven/repository" }
+}
+
+dependencies {
+    compile 'org.gotti.wurmunlimited:server-modlauncher:0.33'
+    compile 'org.gotti.wurmunlimited:common:2182584'
+    compile 'org.gotti.wurmunlimited:server:2182584'
+    compile 'com.intellij:annotations:12.0'
+}
+
+jar {
+    archiveName "${project.name}.jar"
+}
+
+
+task dist(type: Zip) {
+    into("mods", {
+        into(project.name, {
+            from jar
+        })
+        from fileTree(dir: 'mods', include: '*')
+    })
+
+    archiveName "${project.name}-${project.version}.zip"
+}
